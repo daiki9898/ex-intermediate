@@ -39,11 +39,6 @@ public class BaseballRepository {
     public BaseballTeam findById(Integer id) {
         String sql = "SELECT id, league_name, team_name, headquarters, inauguration, history FROM teams WHERE id = :id";
         SqlParameterSource param = new MapSqlParameterSource("id", id);
-        List<BaseballTeam> teams = template.query(sql, param, BASEBALL_TEAM_ROW_MAPPER);
-
-        if (teams.isEmpty()) {
-            return null;
-        }
-        return teams.getFirst();
+        return template.queryForObject(sql, param, BASEBALL_TEAM_ROW_MAPPER);
     }
 }
