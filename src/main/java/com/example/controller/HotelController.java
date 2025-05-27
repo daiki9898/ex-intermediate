@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,12 +38,13 @@ public class HotelController {
      * 入力された価格以下のホテル一覧を検索する(未入力の場合、全件検索を行う）.
      *
      * @param hotelSearchInput ホテル情報
-     * @param bindingResult エラー情報
-     * @param model モデル
+     * @param bindingResult    エラー情報
+     * @param model            モデル
      * @return 検索画面
      */
     @PostMapping("/search")
     public String search(@Validated HotelSearchInput hotelSearchInput, BindingResult bindingResult, Model model) {
+
         if (bindingResult.hasErrors()) {
             return index(hotelSearchInput);
         }

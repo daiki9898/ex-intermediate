@@ -24,7 +24,7 @@ public class HotelService {
      * @return ホテル一覧
      */
     public List<Hotel> searchByLessThanPrice(String price) {
-        if (price == null || price.isBlank()) { // 何も入力されなかった場合、全件検索を行う
+        if (price.isEmpty()) { // 何も入力されなかった場合、全件検索を行う
             return hotelRepository.findAll();
         } else {
             return hotelRepository.findByLessThanPrice(Integer.parseInt(price));

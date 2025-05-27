@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>衣類検索</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- 検索フォーム -->
+      <h1>衣類検索</h1>
+      <form
+        th:action="@{/clothes/search}"
+        method="post"
+        th:object="${clothesSearchInput}"
+      >
+        <div class="d-flex">
+          <!-- 性別 -->
+          <div id="gender-form">
+            <div th:errors="*{gender}" class="text-danger"></div>
+            <div th:each="gender : ${genderMap}">
+              <input
+                type="radio"
+                th:id="gender + ${gender.key}"
+                th:value="${gender.key}"
+                th:field="*{gender}"
+              />
+              <label
+                th:for="hobby + ${gender.key}"
+                th:text="${gender.value}"
+              ></label>
+            </div>
+          </div>
+          <!-- 色 -->
+          <div id="color-form">
+            <select th:field="*{color}">
+              <option
+                th:each="color : ${colorMap}"
+                th:value="${color.key}"
+                th:text="${color.value}"
+              ></option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn btn-primary mt-2" type="submit">検索</button>
+      </form>
+
+      <!-- 該当する衣類が存在しない場合のメッセージ -->
+      <div th:text="${notExistsMessage}"></div>
+
+      <!-- 検索結果 -->
+      <div th:each="clothes : ${clothesList}" th:object="${clothes}">
+        <table class="table table-bordered text-center my-2">
+          <tbody>
+            <tr>
+              <th scope="row" class="col-2">ジャンル</th>
+              <td th:text="*{genre}"></td>
+            </tr>
+            <tr>
+              <th scope="row" class="col-2">サイズ</th>
+              <td th:text="*{size}"></td>
+            </tr>
+            <tr>
+              <th scope="row" class="col-2">価格</th>
+              <td th:text="*{#numbers.formatInteger(price, 0, 'COMMA')}"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- bootstrap js -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
